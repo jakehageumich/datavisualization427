@@ -69,19 +69,19 @@ var data = {
   series: [
     {
       label: '${all.get(0).status}',
-      values: ['${all.get(0).count}', '${all.get(3).count}', '${all.get(6).count}']
+      values: [0, 3, 6]
     },
     {
       label: '${all.get(1).status}',
-      values: ['${all.get(1).count}', '${all.get(4).count}', '${all.get(7).count}']
+      values: [1, 4, 7]
     },
     {
       label: '${all.get(2).status}',
-      values: ['${all.get(2).count}', '${all.get(5).count}','${all.get(8).count}']
+      values: [2, 5, 8]
     },]
 };
 
-var chartWidth       = 100,
+var chartWidth       = 300,
     barHeight        = 20,
     groupHeight      = barHeight * data.series.length,
     gapBetweenGroups = 10,
