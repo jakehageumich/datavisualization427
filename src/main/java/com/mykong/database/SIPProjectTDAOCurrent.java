@@ -159,4 +159,20 @@ public class SIPProjectTDAOCurrent {
 		}
 		return distinctTenants;
 	}
+	public static String[] getDistinctStatusTypes(ArrayList<SIPProjectTCurrent> list){
+		String [] statuses = new String[1];
+		String temp = list.get(0).getStatus();
+		int index = 0;
+		statuses[index] = temp;
+		for(int i = 1; i < list.size(); i++){
+			if(!(temp.equals(list.get(i).getStatus()))){
+				//increase array size, increment index of names
+				statuses = Arrays.copyOf(statuses, ++index);
+				//distinctTenants = new String[index++];
+				temp = list.get(i).getStatus();
+				statuses[index-1] = temp;
+			}
+		}
+		return statuses;
+	}
 }

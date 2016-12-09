@@ -35,31 +35,8 @@ public class HelloController{
 		
 		try{
 			//current DB values based on querying progress --- adjust this accordingly
-			ArrayList<SIPProjectTCurrent> curList = new ArrayList<SIPProjectTCurrent>();
+			ArrayList<SIPProjectTCurrent> curList = SIPProjectTDAOCurrent.getAll();
 
-			Connection con = SIPProjectTDAOUtils.getStoredConnection();
-
-			String curSql = "SELECT  tenbystat.tenant, tenbystat.status, count(proj.id) "
-					+ "FROM    ( select  ten.tenant as tenant, stat.status as status "
-					+ "FROM    ( select distinct tenant from sys_tenant_type_t ) ten,( select distinct status from sys_status_type_t ) stat) tenbystat "
-					+ "left join " + "sip_project_t proj on proj.tenant = tenbystat.tenant and "
-					+ "proj.status = tenbystat.status, " + "sys_tenant_type_t tentype, " + "sys_status_type_t stattype "
-					+ "WHERE tenbystat.tenant = tentype.tenant  and  tenbystat.status = stattype.status "
-					+ "GROUP BY tenbystat.tenant, tenbystat.status, tentype.rank, stattype.rank "
-					+ "ORDER BY tentype.rank, stattype.rank";
-
-			PreparedStatement curPS = SIPProjectTDAOUtils.getPreparedStatement(con, curSql);
-
-			ResultSet rs = curPS.executeQuery();
-
-			while (rs.next()) {
-				SIPProjectTCurrent spc = new SIPProjectTCurrent();
-				spc.setTenant(rs.getString(1));
-				spc.setStatus(rs.getString(2));
-				spc.setCount(rs.getInt(3));
-				curList.add(spc);
-			}
-			
 			//distinct tenant names
 			String [] tenantNames = SIPProjectTDAOCurrent.getDistinctTenantNames(curList);
 			
@@ -86,13 +63,11 @@ public class HelloController{
 		ModelAndView model = new ModelAndView();
 		
 		ArrayList<SIPProjectTCurrent> all = SIPProjectTDAOCurrent.getAll();
+		String [] tenantNames = SIPProjectTDAOCurrent.getDistinctTenantNames(all);
 		
-		model.addObject("all", all);
-		//model.addObject("tenantNames", tenantNames);
-
 		model.setViewName("viewAll");
-		
-		
+		model.addObject("all", all);
+		model.addObject("tenantNames", tenantNames);		
 		return model;
 	}
 	

@@ -64,24 +64,24 @@
 
 var data = {
   labels: [
-    '${all.get(1).tenant}', '{all.get(5).tenant}'
+    '${tenantNames[0]}', '${tenantNames[1]}', '${tenantNames[2]}'
   ],
   series: [
     {
-      label: '${all.get(1).tenant}',
-      values: [4, 8, 15, 16, 23, 42]
+      label: '${all.get(0).status}',
+      values: ['${all.get(0).count}', '${all.get(3).count}', '${all.get(6).count}']
     },
     {
-      label: '${all.get(5).tenant}',
-      values: [12, 43, 22, 11, 73, 25]
+      label: '${all.get(1).status}',
+      values: ['${all.get(1).count}', '${all.get(4).count}', '${all.get(7).count}']
     },
     {
-      label: '2014',
-      values: [31, 28, 14, 8, 15, 21]
+      label: '${all.get(2).status}',
+      values: ['${all.get(2).count}', '${all.get(5).count}','${all.get(8).count}']
     },]
 };
 
-var chartWidth       = 300,
+var chartWidth       = 100,
     barHeight        = 20,
     groupHeight      = barHeight * data.series.length,
     gapBetweenGroups = 10,
@@ -98,7 +98,7 @@ for (var i=0; i<data.labels.length; i++) {
 
 // Color scale
 var color = d3.scale.category20();
-var chartHeight = barHeight * zippedData.length + gapBetweenGroups * data.labels.length;
+var chartHeight = barHeight * zippedData.length + gapBetweenGroups * 2 * data.labels.length;
 
 var x = d3.scale.linear()
     .domain([0, d3.max(zippedData)])
